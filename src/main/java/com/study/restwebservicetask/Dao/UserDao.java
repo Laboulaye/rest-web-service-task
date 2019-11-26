@@ -1,0 +1,31 @@
+package com.study.restwebservicetask.Dao;
+
+import com.study.restwebservicetask.Model.User;
+import org.springframework.stereotype.Repository;
+
+import java.util.*;
+
+@Repository
+public class UserDao {
+    private static Map<String, User> userMap = new HashMap<>();
+
+    public User getUser(String id){
+        return userMap.get(id);
+    }
+    public User addUser(User user){
+        userMap.put("1", user);
+        return user;
+    }
+    public User editUser(User user){
+        userMap.put("1", user);
+        return user;
+    }
+    public void deleteUser(String id){
+        userMap.remove(id);
+    }
+    public List<User> getAllUser(){
+        Collection<User> users = userMap.values();
+        return new ArrayList<>(users);
+    }
+
+}
