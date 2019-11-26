@@ -1,6 +1,5 @@
 package com.study.restwebservicetask.Model;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class User {
@@ -42,12 +41,4 @@ public class User {
         this.contacts = contacts;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                '}';
-    }
 }

@@ -41,4 +41,9 @@ public class ContactController {
         contactDao.deleteContact(userId, contactId);
     }
 
+    @GetMapping("/find")
+    public Contact findContactByPhone(@RequestParam("phone") String phone){
+        return contactDao.findContactByPhone(phone);
+    }
+
 }

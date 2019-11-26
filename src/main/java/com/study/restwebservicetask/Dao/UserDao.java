@@ -33,5 +33,16 @@ public class UserDao {
         return new ArrayList<>(users);
     }
 
+    public User findUserByName(String name){
+        Collection<User> users = userMap.values();
+        List<User> list = new ArrayList<>(users);
+        for(User user: list){
+            if(user.getFirstname().equals(name)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
 
 }

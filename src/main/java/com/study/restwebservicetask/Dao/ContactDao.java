@@ -4,6 +4,7 @@ import com.study.restwebservicetask.Model.Contact;
 import com.study.restwebservicetask.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -51,6 +52,19 @@ public class ContactDao {
         }
         Collection<Contact> contacts = contactMap.values();
         return new ArrayList<>(contacts);
+    }
+
+    public Contact findContactByPhone(String phone){
+        List<User> userList = userDao.getAllUsers();
+        for(User user: userList){
+            List<Contact> contactList = new ArrayList<>(user.getContacts().values());
+            for(Contact contact: contactList){
+                if (contact.getPhone().equals(phone)){
+                    return contact;
+                }
+            }
+        }
+        return null;
     }
 
 }

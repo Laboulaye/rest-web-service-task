@@ -6,15 +6,6 @@ public class Contact {
     private String lastname;
     private String phone;
 
-    public Contact() {
-    }
-
-    public Contact(String id, String firstname, String lastname) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
-
     public String getId() {
         return id;
     }
