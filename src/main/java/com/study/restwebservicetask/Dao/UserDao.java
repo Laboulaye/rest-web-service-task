@@ -13,19 +13,20 @@ public class UserDao {
         return userMap.get(id);
     }
     public User addUser(User user){
-        userMap.put("1", user);
+        userMap.put(user.getId(), user);
         return user;
     }
     public User editUser(User user){
-        userMap.put("1", user);
+        userMap.put(user.getId(), user);
         return user;
     }
     public void deleteUser(String id){
         userMap.remove(id);
     }
-    public List<User> getAllUser(){
+    public List<User> getAllUsers(){
         Collection<User> users = userMap.values();
         return new ArrayList<>(users);
     }
+
 
 }
