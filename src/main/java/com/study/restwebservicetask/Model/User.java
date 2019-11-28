@@ -9,6 +9,22 @@ public class User {
     private String lastname;
     private Map<String, Contact> contacts;
 
+    public User() {
+    }
+
+    public User(String id, String firstname, String lastname) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
+    public User(String id, String firstname, String lastname, Map<String, Contact> contacts) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.contacts = contacts;
+    }
+
     public String getId() {
         return id;
     }

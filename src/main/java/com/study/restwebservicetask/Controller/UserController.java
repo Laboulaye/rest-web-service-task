@@ -24,31 +24,31 @@ public class UserController {
         return userDao.getAllUsers();
     }
 
-    @PostMapping("/user")
+    @PostMapping("/users")
     public User addUser(@RequestBody User user){
         System.out.println("(Service Side) Creating User: " + user.getId());
         return userDao.addUser(user);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     public User getUser(@PathVariable("id") String id){
         return userDao.getUser(id);
     }
 
-    @PutMapping("/user")
+    @PutMapping("/users")
     public User editUser(@RequestBody User user){
         System.out.println("(Service Side) Editing User: " + user.getId());
         return userDao.editUser(user);
     }
 
-    @DeleteMapping("user/{id}")
+    @DeleteMapping("users/{id}")
     public void deleteUser(@PathVariable("id") String id){
         System.out.println("(Service Side) Deleting User: " + id);
         userDao.deleteUser(id);
     }
 
-    @GetMapping("/find")
-    public User findUserByName(@RequestParam("name") String name){
+    @GetMapping("/search")
+    public User findUserByName(@RequestParam(name="name") String name){
         return userDao.findUserByName(name);
     }
 
