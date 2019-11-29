@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     private UserDao userDao;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping("/")
     @ApiOperation(value = "Home page")
     public String welcome(){
         return "Welcome to Homepage REST web App";
@@ -34,7 +34,6 @@ public class UserController {
     @ApiOperation(value = "Add user")
     public User addUser(@ApiParam(value = "User object for add", required = true)
                             @RequestBody User user){
-        System.out.println("(Service Side) Creating User: " + user.getId());
         return userDao.addUser(user);
     }
 
@@ -51,7 +50,6 @@ public class UserController {
                              @PathVariable("userId") String userId,
                          @ApiParam(value = "Update user object", required = true)
                              @RequestBody User userUpdate){
-        System.out.println("(Service Side) Editing User: " + userId);
         return userDao.editUser(userId, userUpdate);
     }
 
@@ -59,14 +57,7 @@ public class UserController {
     @ApiOperation(value = "Delete user")
     public void deleteUser(@ApiParam(value = "User Id from which user object will delete", required = true)
                                @PathVariable("userId") String userId){
-        System.out.println("(Service Side) Deleting User: " + userId);
         userDao.deleteUser(userId);
-    }
-
-    @GetMapping("/search")
-    @ApiOperation(value = "Find user by name")
-    public User findUserByName(@ApiParam(value = "User name for search user info", required = true) @RequestParam(name="name") String name){
-        return userDao.findUserByName(name);
     }
 
 }

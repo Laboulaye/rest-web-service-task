@@ -8,10 +8,7 @@ import com.study.restwebservicetask.exception.user.UserDoesNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class ContactDao {
@@ -58,19 +55,6 @@ public class ContactDao {
         contactMap = userDao.getUser(userId).getContacts();
         Collection<Contact> contacts = contactMap.values();
         return new ArrayList<>(contacts);
-    }
-
-    public Contact findContactByPhone(String phone){
-        List<User> userList = userDao.getAllUsers();
-        for(User user: userList){
-            List<Contact> contactList = new ArrayList<>(user.getContacts().values());
-            for(Contact contact: contactList){
-                if (contact.getPhone().equals(phone)){
-                    return contact;
-                }
-            }
-        }
-        return null;
     }
 
     private void catchUserForValidity(String userId){

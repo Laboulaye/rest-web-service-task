@@ -20,7 +20,8 @@ public class ContactController {
 
     @GetMapping("/contacts")
     @ApiOperation(value = "View a list of available user contacts", response = List.class)
-    public List<Contact> getAllContacts(@PathVariable("userId") String userId){
+    public List<Contact> getAllContacts(@ApiParam(value = "User Id from which contact objects will retrieve", required = true)
+                                            @PathVariable("userId") String userId){
         return contactDao.getAllContacts(userId);
     }
 
@@ -30,7 +31,6 @@ public class ContactController {
                                   @PathVariable("userId") String userId,
                               @ApiParam(value = "Contact object for add", required = true)
                                     @RequestBody Contact contact){
-        System.out.println("(Service Side) Creating contact: #" + contact.getId() + " of user: #" + userId);
         return contactDao.addContact(userId, contact);
     }
 
@@ -60,14 +60,7 @@ public class ContactController {
                                   @PathVariable("userId") String userId,
                               @ApiParam(value = "Contact Id from which contact object will delete", required = true)
                               @PathVariable("contactId") String contactId){
-        System.out.println("(Service Side) Deleting contact: #" + contactId + " of user: #" + userId );
         contactDao.deleteContact(userId, contactId);
-    }
-
-    @GetMapping("/search")
-    @ApiOperation(value = "Find contact by phone")
-    public Contact findContactByPhone(@ApiParam(value = "Contact phone for search contact", required = true) @RequestParam(name="phone") String phone){
-        return contactDao.findContactByPhone(phone);
     }
 
 }

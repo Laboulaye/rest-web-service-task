@@ -10,7 +10,11 @@ import java.util.*;
 @Repository
 public class UserDao {
 
-    private static Map<String, User> userMap = new HashMap<>();
+    private  Map<String, User> userMap = new HashMap<>();
+
+    public Map<String, User> getUserMap() {
+        return userMap;
+    }
 
     public User getUser(String userId){
         catchUserForValidity(userId);
@@ -45,19 +49,7 @@ public class UserDao {
     }
 
     public List<User> getAllUsers(){
-        Collection<User> users = userMap.values();
-        return new ArrayList<>(users);
-    }
-
-    public User findUserByName(String name){
-        Collection<User> users = userMap.values();
-        List<User> list = new ArrayList<>(users);
-        for(User user: list){
-            if(user.getFirstname().equals(name)) {
-                return user;
-            }
-        }
-        return null;
+        return new ArrayList<>(userMap.values());
     }
 
     private void catchUserForValidity(String userId){
