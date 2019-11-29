@@ -1,6 +1,8 @@
 package com.study.restwebservicetask.Dao;
 
 import com.study.restwebservicetask.Model.User;
+import com.study.restwebservicetask.exception.user.UserWithSameIdAlreadyExistException;
+import com.study.restwebservicetask.exception.user.UserDoesNotExistException;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -10,22 +12,36 @@ public class UserDao {
 
     private static Map<String, User> userMap = new HashMap<>();
 
-    public User getUser(String id){
-        return userMap.get(id);
+    public User getUser(String userId){
+        catchUserForValidity(userId);
+        return userMap.get(userId);
     }
 
     public User addUser(User user){
-        userMap.put(user.getId(), user);
-        return user;
+        if(userMap.containsKey(user.getId())){
+            throw new UserWithSameIdAlreadyExistException();
+        }
+        else{
+            userMap.put(user.getId(), user);
+            return user;
+        }
     }
 
     public User editUser(String userId, User userUpdate){
-        userMap.put(userId, userUpdate);
+        catchUserForValidity(userId);
+
+        User userOrigin = userMap.get(userId);
+        userOrigin.setId(userUpdate.getId());
+        userOrigin.setFirstname(userUpdate.getFirstname());
+        userOrigin.setLastname(userUpdate.getLastname());
+        userMap.remove(userId);
+        userMap.put(userUpdate.getId(), userOrigin);
         return userUpdate;
     }
 
-    public void deleteUser(String id){
-        userMap.remove(id);
+    public void deleteUser(String userId){
+        catchUserForValidity(userId);
+        userMap.remove(userId);
     }
 
     public List<User> getAllUsers(){
@@ -42,6 +58,12 @@ public class UserDao {
             }
         }
         return null;
+    }
+
+    private void catchUserForValidity(String userId){
+        if(!userMap.containsKey(userId)){
+            throw new UserDoesNotExistException();
+        }
     }
 
 
