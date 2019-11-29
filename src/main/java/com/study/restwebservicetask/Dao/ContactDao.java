@@ -29,10 +29,10 @@ public class ContactDao {
         return contact;
     }
 
-    public Contact editContact(String userId, Contact contact){
+    public Contact editContact(String userId, String contactId, Contact contact){
         User usr = userDao.getUser(userId);
         contactMap = usr.getContacts();
-        contactMap.put(contact.getId(), contact);
+        contactMap.put(contactId, contact);
         return contact;
     }
 
@@ -44,12 +44,6 @@ public class ContactDao {
 
     public List<Contact> getAllContacts(String userId){
         User usr = userDao.getUser(userId);
-        if(usr.getContacts() == null){
-            contactMap = new HashMap<>();
-        }
-        else{
-            contactMap = usr.getContacts();
-        }
         Collection<Contact> contacts = contactMap.values();
         return new ArrayList<>(contacts);
     }

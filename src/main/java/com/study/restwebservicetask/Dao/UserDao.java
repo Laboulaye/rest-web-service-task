@@ -19,9 +19,9 @@ public class UserDao {
         return user;
     }
 
-    public User editUser(User user){
-        userMap.put(user.getId(), user);
-        return user;
+    public User editUser(String userId, User userUpdate){
+        userMap.put(userId, userUpdate);
+        return userUpdate;
     }
 
     public void deleteUser(String id){

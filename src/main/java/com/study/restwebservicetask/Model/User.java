@@ -1,5 +1,8 @@
 package com.study.restwebservicetask.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class User {
@@ -7,22 +10,9 @@ public class User {
     private String id;
     private String firstname;
     private String lastname;
-    private Map<String, Contact> contacts;
+    private Map<String, Contact> contacts = new HashMap<>();
 
     public User() {
-    }
-
-    public User(String id, String firstname, String lastname) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
-
-    public User(String id, String firstname, String lastname, Map<String, Contact> contacts) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.contacts = contacts;
     }
 
     public String getId() {
@@ -49,6 +39,7 @@ public class User {
         this.lastname = lastname;
     }
 
+    @JsonIgnore
     public Map<String, Contact> getContacts() {
         return contacts;
     }

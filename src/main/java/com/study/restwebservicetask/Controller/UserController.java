@@ -45,12 +45,14 @@ public class UserController {
         return userDao.getUser(id);
     }
 
-    @PutMapping("/users")
+    @PutMapping("/users/{userId}")
     @ApiOperation(value = "Update user")
-    public User editUser(@ApiParam(value = "Update user object", required = true)
-                             @RequestBody User user){
-        System.out.println("(Service Side) Editing User: " + user.getId());
-        return userDao.editUser(user);
+    public User editUser(@ApiParam(value = "User Id from which user object will update", required = true)
+                             @PathVariable("userId") String userId,
+                         @ApiParam(value = "Update user object", required = true)
+                             @RequestBody User userUpdate){
+        System.out.println("(Service Side) Editing User: " + userId);
+        return userDao.editUser(userId, userUpdate);
     }
 
     @DeleteMapping("users/{userId}")

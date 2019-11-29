@@ -43,13 +43,15 @@ public class ContactController {
         return contactDao.getContact(userId, contactId);
     }
 
-    @PutMapping("/contacts")
+    @PutMapping("/contacts/{contactId}")
     @ApiOperation(value = "Update contact")
     public Contact editContact(@ApiParam(value = "User Id to update user contact object", required = true)
                                    @PathVariable("userId") String userId,
+                               @ApiParam(value = "Contact Id from which contact object will update", required = true)
+                               @PathVariable("contactId") String contactId,
                                @ApiParam(value = "Update contact object", required = true)
                                @RequestBody Contact contact){
-        return contactDao.editContact(userId, contact);
+        return contactDao.editContact(userId, contactId, contact);
     }
 
     @DeleteMapping("/contacts/{contactId}")
