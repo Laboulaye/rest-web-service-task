@@ -1,6 +1,7 @@
-package com.study.restwebservicetask.Dao;
+package com.study.restwebservicetask.dao;
 
-import com.study.restwebservicetask.Model.User;
+import com.study.restwebservicetask.model.User;
+import com.study.restwebservicetask.exception.user.UserNotFoundException;
 import com.study.restwebservicetask.exception.user.UserWithSameIdAlreadyExistException;
 import com.study.restwebservicetask.exception.user.UserDoesNotExistException;
 import org.springframework.stereotype.Repository;
@@ -16,9 +17,9 @@ public class UserDao {
         return userMap;
     }
 
-    public User getUser(String userId){
-        catchUserForValidity(userId);
-        return userMap.get(userId);
+    public List<User> getAllUsers(){
+        if(userMap.values().isEmpty()) throw new UserNotFoundException();
+        return new ArrayList<>(userMap.values());
     }
 
     public User addUser(User user){
@@ -29,6 +30,11 @@ public class UserDao {
             userMap.put(user.getId(), user);
             return user;
         }
+    }
+
+    public User getUser(String userId){
+        catchUserForValidity(userId);
+        return userMap.get(userId);
     }
 
     public User editUser(String userId, User userUpdate){
@@ -48,15 +54,9 @@ public class UserDao {
         userMap.remove(userId);
     }
 
-    public List<User> getAllUsers(){
-        return new ArrayList<>(userMap.values());
-    }
-
     private void catchUserForValidity(String userId){
         if(!userMap.containsKey(userId)){
             throw new UserDoesNotExistException();
         }
     }
-
-
 }

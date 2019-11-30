@@ -1,7 +1,9 @@
-package com.study.restwebservicetask.Dao;
+package com.study.restwebservicetask.dao;
 
-import com.study.restwebservicetask.Model.Contact;
-import com.study.restwebservicetask.Model.User;
+import com.study.restwebservicetask.model.Contact;
+import com.study.restwebservicetask.model.User;
+import com.study.restwebservicetask.exception.contact.ContactNotFoundException;
+import com.study.restwebservicetask.exception.user.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,6 +34,9 @@ public class SearchDao {
                 listFind.add(user);
             }
         }
+        if(listFind.isEmpty()){
+            throw new UserNotFoundException();
+        }
         return listFind;
     }
 
@@ -45,6 +50,6 @@ public class SearchDao {
                 }
             }
         }
-        return null;
+        throw new ContactNotFoundException();
     }
 }

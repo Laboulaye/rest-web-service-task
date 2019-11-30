@@ -1,8 +1,9 @@
-package com.study.restwebservicetask.Dao;
+package com.study.restwebservicetask.dao;
 
-import com.study.restwebservicetask.Model.Contact;
-import com.study.restwebservicetask.Model.User;
+import com.study.restwebservicetask.model.Contact;
+import com.study.restwebservicetask.model.User;
 import com.study.restwebservicetask.exception.contact.ContactDoesNotExistException;
+import com.study.restwebservicetask.exception.contact.ContactNotFoundException;
 import com.study.restwebservicetask.exception.contact.ContactWithSameIdAlreadyExistException;
 import com.study.restwebservicetask.exception.user.UserDoesNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ public class ContactDao {
     @Autowired
     UserDao userDao;
 
-    public Contact getContact(String userId, String contactId){
+    public List<Contact> getAllContacts(String userId){
         catchUserForValidity(userId);
-        catchContactForValidity(userId, contactId);
-        return contactMap.get(contactId);
+        contactMap = userDao.getUser(userId).getContacts();
+        Collection<Contact> contacts = contactMap.values();
+        if(contacts.isEmpty()) throw new ContactNotFoundException();
+        return new ArrayList<>(contacts);
     }
 
     public Contact addContact(String userId, Contact contact){
@@ -36,6 +39,12 @@ public class ContactDao {
         }
     }
 
+    public Contact getContact(String userId, String contactId){
+        catchUserForValidity(userId);
+        catchContactForValidity(userId, contactId);
+        return contactMap.get(contactId);
+    }
+
     public Contact editContact(String userId, String contactId, Contact contact){
         catchUserForValidity(userId);
         catchContactForValidity(userId, contactId);
@@ -48,13 +57,6 @@ public class ContactDao {
         catchUserForValidity(userId);
         catchContactForValidity(userId, contactId);
         contactMap.remove(contactId);
-    }
-
-    public List<Contact> getAllContacts(String userId){
-        catchUserForValidity(userId);
-        contactMap = userDao.getUser(userId).getContacts();
-        Collection<Contact> contacts = contactMap.values();
-        return new ArrayList<>(contacts);
     }
 
     private void catchUserForValidity(String userId){

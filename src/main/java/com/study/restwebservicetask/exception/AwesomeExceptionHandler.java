@@ -1,7 +1,9 @@
 package com.study.restwebservicetask.exception;
 
 import com.study.restwebservicetask.exception.contact.ContactDoesNotExistException;
+import com.study.restwebservicetask.exception.contact.ContactNotFoundException;
 import com.study.restwebservicetask.exception.contact.ContactWithSameIdAlreadyExistException;
+import com.study.restwebservicetask.exception.user.UserNotFoundException;
 import com.study.restwebservicetask.exception.user.UserWithSameIdAlreadyExistException;
 import com.study.restwebservicetask.exception.user.UserDoesNotExistException;
 import org.springframework.http.HttpStatus;
@@ -34,12 +36,20 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new AwesomeException("Contact with this id is not exist"), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    protected ResponseEntity<AwesomeException> handleUserNotFoundException() {
+        return new ResponseEntity<>(new AwesomeException("User not found"), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(ContactNotFoundException.class)
+    protected ResponseEntity<AwesomeException> handleContactNotFoundException() {
+        return new ResponseEntity<>(new AwesomeException("Contact not found"), HttpStatus.NOT_FOUND);
+    }
 
 
     private static class AwesomeException {
         private String message;
 
-        public AwesomeException(String message) {
+        private AwesomeException(String message) {
             this.message = message;
         }
 
