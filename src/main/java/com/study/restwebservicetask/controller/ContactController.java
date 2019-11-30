@@ -1,7 +1,7 @@
-package com.study.restwebservicetask.Controller;
+package com.study.restwebservicetask.controller;
 
-import com.study.restwebservicetask.Dao.ContactDao;
-import com.study.restwebservicetask.Model.Contact;
+import com.study.restwebservicetask.dao.ContactDao;
+import com.study.restwebservicetask.model.Contact;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

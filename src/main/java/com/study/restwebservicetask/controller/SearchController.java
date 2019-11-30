@@ -1,8 +1,8 @@
-package com.study.restwebservicetask.Controller;
+package com.study.restwebservicetask.controller;
 
-import com.study.restwebservicetask.Dao.SearchDao;
-import com.study.restwebservicetask.Model.Contact;
-import com.study.restwebservicetask.Model.User;
+import com.study.restwebservicetask.dao.SearchDao;
+import com.study.restwebservicetask.model.Contact;
+import com.study.restwebservicetask.model.User;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;

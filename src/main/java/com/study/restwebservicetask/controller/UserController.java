@@ -1,8 +1,8 @@
-package com.study.restwebservicetask.Controller;
+package com.study.restwebservicetask.controller;
 
 
-import com.study.restwebservicetask.Dao.UserDao;
-import com.study.restwebservicetask.Model.User;
+import com.study.restwebservicetask.dao.UserDao;
+import com.study.restwebservicetask.model.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("/users")
     @ApiOperation(value = "View a list of available users", response = List.class)
-    public List<User> getUsers(){
+    public List<User> getAllUsers(){
         return userDao.getAllUsers();
     }
 

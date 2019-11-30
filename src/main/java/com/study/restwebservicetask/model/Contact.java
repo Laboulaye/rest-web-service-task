@@ -1,4 +1,4 @@
-package com.study.restwebservicetask.Model;
+package com.study.restwebservicetask.model;
 
 public class Contact {
     private String id;
