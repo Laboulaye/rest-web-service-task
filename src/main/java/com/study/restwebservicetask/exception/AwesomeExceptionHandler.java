@@ -17,39 +17,47 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(UserWithSameIdAlreadyExistException.class)
-    protected ResponseEntity<AwesomeException> handleUserWithSameIdAlreadyExistException() {
-        return new ResponseEntity<>(new AwesomeException("User with same id is already exist"), HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<ErrorResponse> handleUserWithSameIdAlreadyExistException() {
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                "User with same id is already exist"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserDoesNotExistException.class)
-    protected ResponseEntity<AwesomeException> handleUserDoesNotExistException() {
-        return new ResponseEntity<>(new AwesomeException("User with this id is not exist"), HttpStatus.NOT_FOUND);
+    protected ResponseEntity<ErrorResponse> handleUserDoesNotExistException() {
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                "User with this id is not exist"), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ContactWithSameIdAlreadyExistException.class)
-    protected ResponseEntity<AwesomeException> handleContactWithSameIdAlreadyExistException() {
-        return new ResponseEntity<>(new AwesomeException("Contact with same id is already exist"), HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<ErrorResponse> handleContactWithSameIdAlreadyExistException() {
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                "Contact with same id is already exist"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ContactDoesNotExistException.class)
-    protected ResponseEntity<AwesomeException> handleContactDoesNotExistException() {
-        return new ResponseEntity<>(new AwesomeException("Contact with this id is not exist"), HttpStatus.NOT_FOUND);
+    protected ResponseEntity<ErrorResponse> handleContactDoesNotExistException() {
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                "Contact with this id is not exist"), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    protected ResponseEntity<AwesomeException> handleUserNotFoundException() {
-        return new ResponseEntity<>(new AwesomeException("User not found"), HttpStatus.NOT_FOUND);
+    protected ResponseEntity<ErrorResponse> handleUserNotFoundException() {
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                "User not found"), HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(ContactNotFoundException.class)
-    protected ResponseEntity<AwesomeException> handleContactNotFoundException() {
-        return new ResponseEntity<>(new AwesomeException("Contact not found"), HttpStatus.NOT_FOUND);
+    protected ResponseEntity<ErrorResponse> handleContactNotFoundException() {
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                "Contact not found"), HttpStatus.NOT_FOUND);
     }
 
 
-    private static class AwesomeException {
+    private static class ErrorResponse {
+        private int errorCode;
         private String message;
 
-        private AwesomeException(String message) {
+        public ErrorResponse(int errorCode, String message) {
+            this.errorCode = errorCode;
             this.message = message;
         }
 
@@ -59,6 +67,14 @@ public class AwesomeExceptionHandler extends ResponseEntityExceptionHandler {
 
         public void setMessage(String message) {
             this.message = message;
+        }
+
+        public int getErrorCode() {
+            return errorCode;
+        }
+
+        public void setErrorCode(int errorCode) {
+            this.errorCode = errorCode;
         }
     }
 }
