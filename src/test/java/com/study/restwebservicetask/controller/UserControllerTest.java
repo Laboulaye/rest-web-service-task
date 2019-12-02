@@ -38,9 +38,8 @@ public class UserControllerTest {
     @InjectMocks
     UserController userController;
 
-    private static final String ID = "1";
-    private static final String FIRSTNAME = "Anthony";
-    private static final String LASTNAME = "Soprano";
+    private User user1 = new User("1", "Anthony", "Soprano");
+    private User user2 = new User("2", "Carmella", "Soprano");
 
     @Before
     public void setUp(){
@@ -55,10 +54,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getAllUsersShouldReturnJsonObject() throws Exception {
-        User user1 = new User(ID, FIRSTNAME, LASTNAME);
-        User user2 = new User("2", "Carmella", "Soprano");
-
+    public void getAllUsersShouldReturnJsonObject()  {
         List<User> list = Arrays.asList(user1, user2);
         when(userDao.getAllUsers()).thenReturn(list);
 
@@ -67,7 +63,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getAllUsersShouldThrowException() throws Exception {
+    public void getAllUsersShouldThrowException()  {
         when(userDao.getAllUsers()).thenThrow(UserNotFoundException.class);
 
         assertThatThrownBy(() -> mockMvc.perform(get("/users")).andExpect(status().isNotFound()))
@@ -75,47 +71,51 @@ public class UserControllerTest {
     }
 
     @Test
-    public void addUserShouldReturnJsonObject() throws Exception{
-        User user = new User(ID, FIRSTNAME, LASTNAME);
-        when(userDao.addUser(user)).thenReturn(user);
+    public void addUserShouldReturnJsonObject(){
+        when(userDao.addUser(user1)).thenReturn(user1);
 
-        User userResponse = userController.addUser(user);
-        assertEquals(ID, userResponse.getId());
-        assertEquals(FIRSTNAME, userResponse.getFirstname());
-        assertEquals(LASTNAME, userResponse.getLastname());
+        User userResponse = userController.addUser(user1);
+        assertEquals("1", userResponse.getId());
+        assertEquals("Anthony", userResponse.getFirstname());
+        assertEquals("Soprano", userResponse.getLastname());
     }
 
     @Test
-    @Ignore
     public void addUserShouldThrowSameIdAlreadyExistException(){
-        User user1 = new User(ID, FIRSTNAME, LASTNAME);
-        User user2 = new User(ID, "Junior", "Carrado");
-        if(user2.getId().equals(user1.getId())){
-            when(userDao.addUser(user2)).thenThrow(UserWithSameIdAlreadyExistException.class);
+        List<String> contactIdList = Arrays.asList(user1.getId(), user2.getId());
+        String contactIdError = "2";
+        if(contactIdList.contains(contactIdError)){
+            when(userDao.addUser(any(User.class))).thenThrow(UserWithSameIdAlreadyExistException.class);
         }
 
-        assertThatThrownBy(() -> mockMvc.perform(post("/users")).andExpect(status().is4xxClientError()))
+        final String JSON_REQUEST = "{\n" +
+                "\"id\" : \"2\",\n" +
+                "\"firstname\" : \"AJ\",\n" +
+                "\"lastname\" : \"Soprano\"\n" +
+                "}";
+
+        assertThatThrownBy(() -> mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JSON_REQUEST))
+                .andExpect(status().is4xxClientError()))
                 .hasCause(new UserWithSameIdAlreadyExistException());
     }
 
     @Test
     public void getUserByIdShouldReturnJsonObject(){
-        User user1 = new User(ID, FIRSTNAME, LASTNAME);
-        User user2 = new User("2", "Carmella", "Soprano");
         when(userDao.getUser("1")).thenReturn(user1);
 
         User userResponse = userController.getUser("1");
-        assertEquals(ID, userResponse.getId());
-        assertEquals(FIRSTNAME, userResponse.getFirstname());
-        assertEquals(LASTNAME, userResponse.getLastname());
+        assertEquals("1", userResponse.getId());
+        assertEquals("Anthony", userResponse.getFirstname());
+        assertEquals("Soprano", userResponse.getLastname());
     }
 
     @Test
     public void getUserByIdShouldThrowDoesNotExistException(){
-        User user1 = new User(ID, FIRSTNAME, LASTNAME);
-        User user2 = new User("2", "Carmella", "Soprano");
+        List<String> userIdList = Arrays.asList(user1.getId(), user2.getId());
         String idError = "3";
-        if(!idError.equals(user1.getId()) && !idError.equals(user2.getId())){
+        if(!userIdList.contains(idError)){
             when(userDao.getUser(idError)).thenThrow(UserDoesNotExistException.class);
         }
         assertThatThrownBy(() -> mockMvc.perform(get("/users/3")).andExpect(status().is4xxClientError()))
@@ -124,19 +124,17 @@ public class UserControllerTest {
 
     @Test
     public void editUserShouldReturnJsonObject(){
-        User userUpdate = new User("2", "Carmella", "Soprano");
-        when(userDao.editUser("1", userUpdate)).thenReturn(userUpdate);
+        when(userDao.editUser("1", user2)).thenReturn(user2);
 
-        User userResponse = userController.editUser("1", userUpdate);
-        assertEquals("2", userUpdate.getId());
+        User userResponse = userController.editUser("1", user2);
+        assertEquals("2", user2.getId());
         assertEquals("Carmella", userResponse.getFirstname());
         assertEquals("Soprano", userResponse.getLastname());
     }
 
     @Test
     public void deleteUserShouldTransmitToUserdao(){
-        User user1 = new User(ID, FIRSTNAME, LASTNAME);
-        userController.deleteUser(ID);
-        verify(userDao, times(1)).deleteUser(ID);
+        userController.deleteUser("1");
+        verify(userDao, times(1)).deleteUser("1");
     }
 }
