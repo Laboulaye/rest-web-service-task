@@ -16,7 +16,7 @@ import java.util.List;
 public class ContactController {
 
     @Autowired
-    ContactDao contactDao;
+    private ContactDao contactDao;
 
     @GetMapping("/contacts")
     @ApiOperation(value = "View a list of available user contacts", response = List.class)

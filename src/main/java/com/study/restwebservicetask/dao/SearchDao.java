@@ -13,7 +13,7 @@ import java.util.*;
 public class SearchDao {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     public List<User> findUserBySomeInfo(User userInfo){
         List<User> list = new ArrayList<>(userDao.getUserMap().values());

@@ -11,7 +11,7 @@ import java.util.*;
 @Repository
 public class UserDao {
 
-    private  Map<String, User> userMap = new HashMap<>();
+    public static Map<String, User> userMap = new HashMap<>();
 
     public Map<String, User> getUserMap() {
         return userMap;

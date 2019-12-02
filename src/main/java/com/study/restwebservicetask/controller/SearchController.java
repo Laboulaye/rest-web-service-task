@@ -15,7 +15,7 @@ import java.util.List;
 public class SearchController {
 
     @Autowired
-    SearchDao searchDao;
+    private SearchDao searchDao;
 
     @PostMapping
     @ApiOperation(value = "Find user by some info. It can find user by id, or by firstname, or by lastname, or fullname")
